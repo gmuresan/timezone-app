@@ -46,6 +46,9 @@ class Html extends React.Component {
           </title>
           <meta name="description" content={description} />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossOrigin="anonymous" />
+          <script src="https://use.fontawesome.com/4e73725cc3.js" />
+
           {scripts.map(script =>
             <link key={script} rel="preload" href={script} as="script" />,
           )}

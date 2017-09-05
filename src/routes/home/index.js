@@ -1,33 +1,65 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
+import { compose, withReducer } from 'recompose';
+import _ from 'lodash';
+
 import Home from './Home';
 import Layout from '../../components/Layout';
+import { get, post, put, dlte } from '../../helpers/request';
 
 async function action({ fetch }) {
-  const resp = await fetch('/graphql', {
-    body: JSON.stringify({
-      query: '{news{title,link,content}}',
-    }),
+  const tzData = await get('/api/timezones');
+  const reducer = (timezones, action) => {
+    switch (action.type) {
+      case 'created':
+        timezones.push(action.timezone);
+        return timezones;
+      case 'updated':
+        const tz = _.find(timezones, (timezone) => timezone.id === action.timezone.id);
+        _.assign(tz, action.timezone);
+        return timezones;
+      case 'deleted':
+        _.remove(timezones, (tz) => tz.id === action.timezone.id);
+        return timezones;
+      default:
+        return timezones;
+    }
+  };
+
+  const createTimezone = (values, dispatch) => post('/api/timezones', values).then((timezone) => {
+    dispatch({ type: 'created', timezone });
   });
-  const { data } = await resp.json();
-  if (!data || !data.news) throw new Error('Failed to load the news feed.');
+
+  const updateTimezone = (values, timezone, dispatch) => put(`/api/timezones/${timezone.id}`, values).then((updated) => {
+    dispatch({ type: 'updated', timezone: updated });
+  });
+
+  const deleteTimezone = (timezone, dispatch) => dlte(`/api/timezones/${timezone.id}`).then(() => {
+    dispatch({ type: 'deleted', timezone });
+  });
+
+  const HomeC = ({ timezones, dispatch }) => (
+    <Home
+      timezones={timezones}
+      createTimezone={(values) => createTimezone(values, dispatch)}
+      updateTimezone={(values, tz) => updateTimezone(values, tz, dispatch)}
+      deleteTimezone={(tz) => deleteTimezone(tz, dispatch)}
+    />
+    );
+
+  const WithTimezones = compose(
+    withReducer('timezones', 'dispatch', reducer, tzData),
+  )(HomeC);
+
   return {
     chunks: ['home'],
-    title: 'React Starter Kit',
+    title: 'Timezones',
     component: (
       <Layout>
-        <Home news={data.news} />
+        <WithTimezones />
       </Layout>
     ),
   };
 }
 
 export default action;
+

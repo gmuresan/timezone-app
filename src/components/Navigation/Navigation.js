@@ -14,16 +14,20 @@ import s from './Navigation.css';
 import Link from '../Link';
 
 class Navigation extends React.Component {
+
+  logout = () => {
+    window.token = null;
+  }
+
   render() {
-    return (
-      <div className={s.root} role="navigation">
-        <Link className={s.link} to="/about">
-          About
-        </Link>
-        <Link className={s.link} to="/contact">
-          Contact
-        </Link>
-        <span className={s.spacer}> | </span>
+    const loggedIn = (
+      <Link className={cx(s.link, s.highlight)} onClick={this.logout}>
+        Log Out
+      </Link>
+    );
+
+    const loggedOut = (
+      <div>
         <Link className={s.link} to="/login">
           Log in
         </Link>
@@ -31,6 +35,17 @@ class Navigation extends React.Component {
         <Link className={cx(s.link, s.highlight)} to="/register">
           Sign up
         </Link>
+      </div>
+    );
+
+    let nav = loggedOut;
+    if (false) {
+      nav = loggedIn;
+    }
+
+    return (
+      <div className={s.root} role="navigation">
+        {nav}
       </div>
     );
   }

@@ -1,0 +1,48 @@
+.loadingButton {
+  display: inline-block;
+}
+
+.button {
+  border-radius: 18px;
+  position: relative;
+}
+
+.red {
+  background: #d9534f;
+}
+
+.white {
+  background: white;
+  color: teal;
+}
+
+.white:hover {
+  background: none;
+  color: teal;
+}
+
+.white.disabled {
+  background: none !important;
+}
+
+.teal {
+  color: teal;
+  font-size: 24px;
+  height: 28px;
+  width: 28px;
+  left: 50%;
+  top: 50%;
+  margin-left: -14px;
+  margin-top: -14px;
+  position: absolute;
+}
+
+.buttonDisabled {
+  background-color: white !important;
+}
+
+.children {
+  display: block;
+}
+
+

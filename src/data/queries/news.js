@@ -7,7 +7,6 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { GraphQLList as List } from 'graphql';
 import fetch from 'isomorphic-fetch';
 import NewsItemType from '../types/NewsItemType';
 

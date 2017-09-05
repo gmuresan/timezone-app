@@ -9,6 +9,7 @@
 
 import sequelize from '../sequelize';
 import User from './User';
+import Timezone from './Timezone';
 import UserLogin from './UserLogin';
 import UserClaim from './UserClaim';
 import UserProfile from './UserProfile';
@@ -16,6 +17,13 @@ import UserProfile from './UserProfile';
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
   as: 'logins',
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+});
+
+User.hasMany(Timezone, {
+  foreignKey: 'userId',
+  as: 'timezones',
   onUpdate: 'cascade',
   onDelete: 'cascade',
 });
@@ -39,4 +47,4 @@ function sync(...args) {
 }
 
 export default { sync };
-export { User, UserLogin, UserClaim, UserProfile };
+export { Timezone, User, UserLogin, UserClaim, UserProfile };

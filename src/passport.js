@@ -15,8 +15,17 @@
 
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { User, UserLogin, UserClaim, UserProfile } from './data/models';
 import config from './config';
+
+passport.use(new LocalStrategy(
+  (email, passrod, done) => {
+    User.findOne({ email }).then(user => {
+
+    });
+  },
+));
 
 /**
  * Sign in with Facebook.

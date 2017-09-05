@@ -10,12 +10,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
+import { post } from '../../helpers/request';
+import RegisterForm from '../../forms/RegisterForm';
 import s from './Register.css';
 
 class Register extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
   };
+
+  register = (values) => post('/user', values).then((resp) => {
+    console.log(resp);
+    return resp;
+  });
 
   render() {
     return (
@@ -24,7 +32,10 @@ class Register extends React.Component {
           <h1>
             {this.props.title}
           </h1>
-          <p>...</p>
+          <RegisterForm
+            onSubmit={this.register}
+            dirty
+          />
         </div>
       </div>
     );
