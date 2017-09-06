@@ -6,8 +6,7 @@ import Home from './Home';
 import Layout from '../../components/Layout';
 import { get, post, put, dlte } from '../../helpers/request';
 
-async function action(context, params) {
-  debugger;
+async function route(context, params) {
   const currentUserId = typeof (localStorage) !== 'undefined' ? JSON.parse(localStorage.currentUser).id : null;
   const userId = params.userId ? params.userId : currentUserId;
   const tzData = await get(`/api/users/${userId}/timezones`);
@@ -16,13 +15,18 @@ async function action(context, params) {
       case 'created':
         timezones.push(action.timezone);
         return timezones;
-      case 'updated':
+      case 'updated': {
         const tz = _.find(timezones, (timezone) => timezone.id === action.timezone.id);
         _.assign(tz, action.timezone);
         return timezones;
+      }
       case 'deleted':
         _.remove(timezones, (tz) => tz.id === action.timezone.id);
         return timezones;
+      case 'filter':
+        return tzData.filter(
+          (tz) => tz.name.toLocaleLowerCase().includes(action.filter.toLocaleLowerCase()),
+        );
       default:
         return timezones;
     }
@@ -40,12 +44,14 @@ async function action(context, params) {
     dispatch({ type: 'deleted', timezone });
   });
 
+  // eslint-disable-next-line react/prop-types
   const HomeC = ({ timezones, dispatch }) => (
     <Home
       timezones={timezones}
       createTimezone={(values) => createTimezone(values, dispatch)}
       updateTimezone={(values, tz) => updateTimezone(values, tz, dispatch)}
       deleteTimezone={(tz) => deleteTimezone(tz, dispatch)}
+      filterByName={(filter) => dispatch({ type: 'filter', filter })}
     />
     );
 
@@ -64,5 +70,5 @@ async function action(context, params) {
   };
 }
 
-export default action;
+export default route;
 

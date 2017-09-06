@@ -11,17 +11,6 @@
   max-width: var(--max-content-width);
 }
 
-.timezone {
-  width: 300px;
-  display: inline-block;
-  margin-right: 15px;
-}
-
-.cardTopRow {
-  display: flex;
-  justify-content: space-between;
-}
-
 .buttonCell {
   display: flex;
 }

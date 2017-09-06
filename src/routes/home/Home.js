@@ -16,6 +16,7 @@ class Home extends React.Component {
     createTimezone: PropTypes.func.isRequired,
     updateTimezone: PropTypes.func.isRequired,
     deleteTimezone: PropTypes.func.isRequired,
+    filterByName: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -85,12 +86,17 @@ class Home extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          Timezones
-          <this.timezoneModal
-            onSubmit={this.props.createTimezone}
-            buttonText="New Timezone"
-            title="Create Timezone"
-          />
+          <div className={s.topRow}>
+            Timezones
+            <div>
+              Filter: <input type="text" onChange={(e) => this.props.filterByName(e.target.value)} />
+            </div>
+            <this.timezoneModal
+              onSubmit={this.props.createTimezone}
+              buttonText="New Timezone"
+              title="Create Timezone"
+            />
+          </div>
           {timezones}
 
         </div>

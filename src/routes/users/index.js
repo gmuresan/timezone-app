@@ -6,20 +6,26 @@ import Users from './Users';
 import Layout from '../../components/Layout';
 import { get, post, put, dlte } from '../../helpers/request';
 
-async function action({ fetch }) {
+async function route({ fetch }) {
   const userData = await get('/api/users');
+
   const reducer = (users, action) => {
     switch (action.type) {
       case 'created':
         users.push(action.user);
         return users;
-      case 'updated':
-        const user = _.find(users, (user) => user.id === action.user.id);
-        _.assign(user, action.user);
+      case 'updated': {
+        const updated = _.find(users, (user) => user.id === action.user.id);
+        _.assign(updated, action.user);
         return users;
+      }
       case 'deleted':
         _.remove(users, (user) => user.id === action.user.id);
         return users;
+      case 'filter':
+        return userData.filter(
+          (user) => user.name.toLocaleLowerCase().includes(action.filter.toLocaleLowerCase()),
+          );
       default:
         return users;
     }
@@ -37,12 +43,14 @@ async function action({ fetch }) {
     dispatch({ type: 'deleted', user });
   });
 
+  // eslint-disable-next-line react/prop-types
   const UserComponent = ({ users, dispatch }) => (
     <Users
       users={users}
       createUser={(values) => createUser(values, dispatch)}
       updateUser={(values, user) => updateUser(values, user, dispatch)}
       deleteUser={(user) => deleteUser(user, dispatch)}
+      filterByName={(filter) => dispatch({ type: 'filter', filter })}
     />
     );
 
@@ -61,5 +69,5 @@ async function action({ fetch }) {
   };
 }
 
-export default action;
+export default route;
 

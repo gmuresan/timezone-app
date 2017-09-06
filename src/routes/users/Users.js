@@ -17,6 +17,7 @@ class Users extends React.Component {
     createUser: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     deleteUser: PropTypes.func.isRequired,
+    filterByName: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -116,30 +117,13 @@ class Users extends React.Component {
   }
 
   render() {
-    const users = this.props.users.map((user) => {
-      const time = moment(this.state.time);
-      time.utcOffset(user.gmtOffset);
-      return (
-        <div className={s.user}>
-          <div className={s.cardTopRow}>
-            <h3>{user.name}</h3>
-          </div>
-          <LoadingButton
-            dirty
-            text="Delete"
-            loadingText="Deleting"
-            successText="Deleted"
-            red
-          />
-
-        </div>
-      );
-    });
-
     return (
       <div className={s.root}>
         <div className={s.container}>
           Users
+          <div>
+            Filter: <input type="text" onChange={(e) => this.props.filterByName(e.target.value)} />
+          </div>
           <this.newUserModal
             onSubmit={this.props.createUser}
             buttonText="New User"
@@ -148,7 +132,6 @@ class Users extends React.Component {
 
           <div style={{ height: 400 }}>
             <Table
-              sortBy={this.props.sortBy}
               items={this.props.users}
               getColumns={(width) => this.getColumns(width)}
             />
