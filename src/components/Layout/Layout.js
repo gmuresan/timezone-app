@@ -17,7 +17,6 @@ import normalizeCss from 'normalize.css';
 import Login from '../../routes/login/Login.js';
 import s from './Layout.css';
 import Header from '../Header';
-import Footer from '../Footer';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -40,7 +39,6 @@ class Layout extends React.Component {
       <div>
         <Header />
         {children}
-        <Footer />
       </div>
     );
   }
