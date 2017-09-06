@@ -47,7 +47,7 @@ class Navigation extends React.Component {
           Log in
         </Link>
         <span className={s.spacer}>or</span>
-        <Link className={cx(s.link, s.highlight)} to="/register">
+        <Link className={s.link} to="/register">
           Sign up
         </Link>
       </div>
