@@ -7,13 +7,15 @@ const routes = {
   // Keep in mind, routes are evaluated in order
   children: [
     {
+      path: '/',
+      load: () => import(/* webpackChunkName: 'home' */ './home'),
+    },
+    {
       path: '/timezones/:userId?',
-      auth: true,
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
       path: '/users',
-      auth: true,
       load: () => import(/* webpackChunkName: 'users' */ './users'),
     },
     {
