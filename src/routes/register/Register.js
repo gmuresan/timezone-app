@@ -21,7 +21,8 @@ class Register extends React.Component {
   };
 
   register = (values) => post('/user', values).then((resp) => {
-    console.log(resp);
+    localStorage.token = resp.token;
+    localStorage.currentUser = resp;
     return resp;
   });
 

@@ -25,6 +25,10 @@ const User = Model.define(
       type: DataType.STRING,
       allowNull: false,
     },
+    userType: {
+      type: DataType.STRING(255),
+      defaultValue: 'user',
+    },
   },
   {
     indexes: [{ fields: ['email'] }],

@@ -54,11 +54,11 @@ class Html extends React.Component {
           )}
           <link rel="apple-touch-icon" href="apple-touch-icon.png" />
           {styles.map(style =>
-            <style
+            (<style
               key={style.id}
               id={style.id}
               dangerouslySetInnerHTML={{ __html: style.cssText }}
-            />,
+            />),
           )}
         </head>
         <body>

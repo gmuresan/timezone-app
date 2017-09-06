@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import LoadingButton from '../LoadingButton';
 
 import s from './ModalForm.css';
 
@@ -60,12 +61,12 @@ export default function modalForm(FormComponent) {
         button = React.cloneElement(this.props.children, { onClick: () => this.toggle() });
       } else if (this.props.buttonText) {
         button = (
-          <Button
-            className={s.button}
+          <LoadingButton
+            dirty
             color="primary"
             onClick={() => this.toggle()}
             data-permission="admin"
-          >{this.props.buttonText}</Button>
+          >{this.props.buttonText}</LoadingButton>
         );
       }
 

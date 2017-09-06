@@ -41,6 +41,7 @@
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
     "react-transition-group": "^1.1.2",
+    "react-virtualized": "^9.9.0",
     "reactstrap": "^4.8.0",
     "recompose": "^0.25.0",
     "redux": "^3.7.1",

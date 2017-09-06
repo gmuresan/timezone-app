@@ -21,7 +21,7 @@ import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 // import { setRuntimeVariable } from './actions/runtime';
 import config from './config';
-import protectedApi from './api';
+import apiRoutes from './api';
 
 const app = express();
 
@@ -66,7 +66,7 @@ app.get(
   },
 );
 
-app.use('/api', protectedApi);
+app.use('/api', apiRoutes);
 
 app.post('/session', (req, res) => {
   const { email, password } = req.body;
@@ -75,9 +75,10 @@ app.post('/session', (req, res) => {
       res.json({});
     } else if (User.validPassword(password, user.password)) {
       const expiresIn = 60 * 60 * 24 * 1; // 1 days
-      const userData = _.pick(user, ['id', 'name', 'email']);
+      const userData = _.pick(user, ['id', 'name', 'email', 'userType']);
       const token = jwt.sign(userData, config.auth.jwt.secret, { expiresIn });
-      res.json({ token });
+      userData.token = token;
+      res.json(userData);
     }
   });
 });
@@ -98,9 +99,10 @@ app.post('/user', (req, res) => {
         if (createdUser) {
           res.status(201);
           const expiresIn = 60 * 60 * 24 * 1; // 1 days
-          const userData = _.pick(createdUser, ['id', 'name', 'email']);
+          const userData = _.pick(createdUser, ['id', 'name', 'email', 'userType']);
           const token = jwt.sign(userData, config.auth.jwt.secret, { expiresIn });
-          res.json({ token });
+          userData.token = token;
+          res.json(userData);
         }
       });
     }
@@ -216,7 +218,23 @@ app.use((err, req, res, next) => {
 //
 // Launch the server
 // -----------------------------------------------------------------------------
-const promise = models.sync().catch(err => console.error(err.stack));
+const promise = models.sync().then(() => {
+  User.findOrCreate({ where: {
+    email: 'manager@toptal.com',
+    name: 'Manager',
+    userType: 'manager',
+  },
+    defaults: { password: User.generateHash('password') },
+  });
+
+  User.findOrCreate({ where: {
+    email: 'admin@toptal.com',
+    name: 'Admin',
+    userType: 'admin',
+  },
+    defaults: { password: User.generateHash('password') },
+  });
+}).catch(err => console.error(err.stack));
 if (!module.hot) {
   promise.then(() => {
     app.listen(config.port, () => {

@@ -1,5 +1,13 @@
 require('fetch-everywhere');
 
+function getTokenAuth() {
+  if (typeof (localStorage) === 'undefined' || localStorage === null) {
+    return '';
+  }
+
+  return `Bearer ${localStorage.token}`;
+}
+
 /**
  * Parses the JSON returned by a network request
  *
@@ -40,7 +48,8 @@ export default function request(url, options) {
   console.log(url);
   return fetch(`http://localhost:3000${url}`, options)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .catch((err) => ([]));
 }
 
 export function get(url, options) {
@@ -49,7 +58,7 @@ export function get(url, options) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNDczZGMwLTkxYTMtMTFlNy05OWZlLTRiZWNhM2UxZDcxYyIsIm5hbWUiOiJHZW9yZ2UgTXVyZXNhbiIsImVtYWlsIjoiZ211cmVzYW4zQGdtYWlsLmNvbSIsImlhdCI6MTUwNDU2MzM1NSwiZXhwIjoxNTA0NjQ5NzU1fQ.TEDm65vNGQqO5RszDY1hOMqpf3tVp1reGGGYD2sZBbM',
+      Authorization: getTokenAuth(),
     },
   });
   return request(url, newOptions);
@@ -62,7 +71,7 @@ export function post(url, data, options) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNDczZGMwLTkxYTMtMTFlNy05OWZlLTRiZWNhM2UxZDcxYyIsIm5hbWUiOiJHZW9yZ2UgTXVyZXNhbiIsImVtYWlsIjoiZ211cmVzYW4zQGdtYWlsLmNvbSIsImlhdCI6MTUwNDU2MzM1NSwiZXhwIjoxNTA0NjQ5NzU1fQ.TEDm65vNGQqO5RszDY1hOMqpf3tVp1reGGGYD2sZBbM',
+      Authorization: getTokenAuth(),
     },
   });
   return request(url, newOptions);
@@ -75,7 +84,7 @@ export function put(url, data, options) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNDczZGMwLTkxYTMtMTFlNy05OWZlLTRiZWNhM2UxZDcxYyIsIm5hbWUiOiJHZW9yZ2UgTXVyZXNhbiIsImVtYWlsIjoiZ211cmVzYW4zQGdtYWlsLmNvbSIsImlhdCI6MTUwNDU2MzM1NSwiZXhwIjoxNTA0NjQ5NzU1fQ.TEDm65vNGQqO5RszDY1hOMqpf3tVp1reGGGYD2sZBbM',
+      Authorization: getTokenAuth(),
     },
   });
   return request(url, newOptions);
@@ -88,7 +97,7 @@ export function dlte(url, data, options) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNDczZGMwLTkxYTMtMTFlNy05OWZlLTRiZWNhM2UxZDcxYyIsIm5hbWUiOiJHZW9yZ2UgTXVyZXNhbiIsImVtYWlsIjoiZ211cmVzYW4zQGdtYWlsLmNvbSIsImlhdCI6MTUwNDU2MzM1NSwiZXhwIjoxNTA0NjQ5NzU1fQ.TEDm65vNGQqO5RszDY1hOMqpf3tVp1reGGGYD2sZBbM',
+      Authorization: getTokenAuth(),
     },
   });
   return request(url, newOptions);

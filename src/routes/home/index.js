@@ -6,8 +6,11 @@ import Home from './Home';
 import Layout from '../../components/Layout';
 import { get, post, put, dlte } from '../../helpers/request';
 
-async function action({ fetch }) {
-  const tzData = await get('/api/timezones');
+async function action(context, params) {
+  debugger;
+  const currentUserId = typeof (localStorage) !== 'undefined' ? JSON.parse(localStorage.currentUser).id : null;
+  const userId = params.userId ? params.userId : currentUserId;
+  const tzData = await get(`/api/users/${userId}/timezones`);
   const reducer = (timezones, action) => {
     switch (action.type) {
       case 'created':
@@ -25,15 +28,15 @@ async function action({ fetch }) {
     }
   };
 
-  const createTimezone = (values, dispatch) => post('/api/timezones', values).then((timezone) => {
+  const createTimezone = (values, dispatch) => post(`/api/users/${userId}/timezones`, values).then((timezone) => {
     dispatch({ type: 'created', timezone });
   });
 
-  const updateTimezone = (values, timezone, dispatch) => put(`/api/timezones/${timezone.id}`, values).then((updated) => {
+  const updateTimezone = (values, timezone, dispatch) => put(`/api/users/${userId}/timezones/${timezone.id}`, values).then((updated) => {
     dispatch({ type: 'updated', timezone: updated });
   });
 
-  const deleteTimezone = (timezone, dispatch) => dlte(`/api/timezones/${timezone.id}`).then(() => {
+  const deleteTimezone = (timezone, dispatch) => dlte(`/api/users/${userId}/timezones/${timezone.id}`).then(() => {
     dispatch({ type: 'deleted', timezone });
   });
 

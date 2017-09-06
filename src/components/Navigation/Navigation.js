@@ -15,15 +15,28 @@ import Link from '../Link';
 
 class Navigation extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      token: typeof (localStorage) !== 'undefined' ? localStorage.token : null,
+    };
+  }
+
   logout = () => {
-    window.token = null;
+    localStorage.token = null;
   }
 
   render() {
     const loggedIn = (
-      <Link className={cx(s.link, s.highlight)} onClick={this.logout}>
+      <div>
+        <Link className={cx(s.link, s.highlight)} to="/users">
+        Users
+      </Link>
+        <Link className={cx(s.link, s.highlight)} onClick={this.logout}>
         Log Out
       </Link>
+      </div>
     );
 
     const loggedOut = (
@@ -39,7 +52,7 @@ class Navigation extends React.Component {
     );
 
     let nav = loggedOut;
-    if (false) {
+    if (this.state.token) {
       nav = loggedIn;
     }
 

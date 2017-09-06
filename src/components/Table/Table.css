@@ -1,0 +1,70 @@
+
+.tableHeader {
+  border-right: 1px solid #cccfd1!important;
+  border-bottom: 1px solid #cccfd1!important;
+  margin: 0 !important;
+  padding: 0 10px;
+  font-size: 11px !important;
+  background-color: white;
+  text-align: center;
+  height: 100%;
+}
+
+.tableT > *:focus,
+.tableHeader:focus {
+  outline: none;
+}
+
+.tableT {
+  display: block;
+}
+
+.rowOdd {
+  background-color: rgba(220, 220, 220, 0.2);
+}
+
+.rowOdd:first-of-type {
+  background-color: white;
+}
+
+.rowEven {
+  background-color: white;
+}
+
+.rowEven,
+.rowOdd {
+  margin-right: 0;
+}
+
+.rowEven > *,
+.rowOdd > * {
+  border-right: 1px solid rgba(220, 220, 220, 0.2);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.rowOdd > div:last-of-type,
+.rowEven > div:last-of-type {
+  margin-right: 0;
+  border-right: 0;
+}
+
+.selectedRow {
+  border: 2px solid yellow;
+}
+
+.border {
+  border: 1px solid #cccfd1;
+  height: 100%;
+}
+
+.emptyStateRow {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

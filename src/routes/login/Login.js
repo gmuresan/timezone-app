@@ -22,7 +22,8 @@ class Login extends React.Component {
   };
 
   onSubmit = (values) => post('/session', values).then((res) => {
-    window.token = res.token;
+    localStorage.token = res.token;
+    localStorage.currentUser = JSON.stringify(res);
   });
 
   render() {
