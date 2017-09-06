@@ -1,5 +1,14 @@
 require('fetch-everywhere');
 
+function getBaseUrl() {
+  if (process.env.BROWSER) {
+    return window.App.apiUrl;
+  }
+
+  // eslint-disable-next-line global-require
+  return require('../config').api.serverUrl;
+}
+
 function getTokenAuth() {
   if (typeof (localStorage) === 'undefined' || localStorage === null) {
     return '';
@@ -46,7 +55,7 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   console.log(url);
-  return fetch(`http://localhost:3000${url}`, options)
+  return fetch(`${getBaseUrl()}${url}`, options)
     .then(checkStatus)
     .then(parseJSON)
     .catch((err) => ([]));

@@ -4,7 +4,6 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
-import nodeFetch from 'node-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
@@ -12,14 +11,12 @@ import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
-import createFetch from './createFetch';
-import passport from './passport';
 import router from './router';
 import models, { User } from './data/models';
 // import schema from './data/schema';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
-// import { setRuntimeVariable } from './actions/runtime';
+import { setRuntimeVariable } from './actions/runtime';
 import config from './config';
 import apiRoutes from './api';
 
@@ -40,31 +37,10 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app.use(passport.initialize());
 
 if (__DEV__) {
   app.enable('trust proxy');
 }
-app.get(
-  '/login/facebook',
-  passport.authenticate('facebook', {
-    scope: ['email', 'user_location'],
-    session: false,
-  }),
-);
-app.get(
-  '/login/facebook/return',
-  passport.authenticate('facebook', {
-    failureRedirect: '/login',
-    session: false,
-  }),
-  (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, config.auth.jwt.secret, { expiresIn });
-    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-    res.redirect('/');
-  },
-);
 
 app.use('/api', apiRoutes);
 
@@ -116,29 +92,20 @@ app.get('*', async (req, res, next) => {
   try {
     const css = new Set();
 
-    // Universal HTTP client
-    const fetch = createFetch(nodeFetch, {
-      baseUrl: config.api.serverUrl,
-      cookie: req.headers.cookie,
-    });
-
     const initialState = {
       user: req.user || null,
     };
 
     const store = configureStore(initialState, {
-      fetch,
       // I should not use `history` on server.. but how I do redirection? follow universal-router
     });
 
-    /*
     store.dispatch(
       setRuntimeVariable({
         name: 'initialNow',
         value: Date.now(),
       }),
     );
-    */
 
     // Global (context) variables that can be easily accessed from any React component
     // https://facebook.github.io/react/docs/context.html
@@ -149,7 +116,6 @@ app.get('*', async (req, res, next) => {
         // eslint-disable-next-line no-underscore-dangle
         styles.forEach(style => css.add(style._getCss()));
       },
-      fetch,
       // You can access redux through react-redux connect
       store,
       storeSubscription: null,

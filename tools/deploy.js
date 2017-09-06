@@ -14,6 +14,7 @@ import { makeDir, moveDir, cleanDir } from './lib/fs';
 import run from './run';
 
 // GitHub Pages
+/*
 const remote = {
   name: 'github',
   url: 'https://github.com/<user>/<repo>.git',
@@ -21,14 +22,15 @@ const remote = {
   website: 'https://<user>.github.io/<repo>/',
   static: true,
 };
+*/
 
 // Heroku
-// const remote = {
-//   name: 'heroku',
-//   url: 'https://git.heroku.com/<app>.git',
-//   branch: 'master',
-//   website: 'https://<app>.herokuapp.com',
-// };
+const remote = {
+  name: 'heroku',
+  url: 'https://git.heroku.com/gm-toptal.git',
+  branch: 'master',
+  website: 'https://gm-toptal.herokuapp.com',
+};
 
 // Azure Web Apps
 // const remote = {
