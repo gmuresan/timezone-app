@@ -13,6 +13,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import { post } from '../../helpers/request';
 import RegisterForm from '../../forms/RegisterForm';
+import history from '../../history';
 import s from './Register.css';
 
 class Register extends React.Component {
@@ -22,7 +23,8 @@ class Register extends React.Component {
 
   register = (values) => post('/user', values).then((resp) => {
     localStorage.token = resp.token;
-    localStorage.currentUser = resp;
+    localStorage.currentUser = JSON.stringify(resp);
+    history.push('/timezones');
     return resp;
   });
 

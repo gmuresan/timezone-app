@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { Card, CardBlock, CardText, CardTitle, CardSubtitle } from 'reactstrap';
 import moment from 'moment';
-import AnalogClock from 'react-analog-clock';
 
 import s from './Home.css';
 import ModalForm from '../../components/ModalForm';
 import TimezoneForm from '../../forms/TimezoneForm';
 import LoadingButton from '../../components/LoadingButton';
+import Clock from '../../components/Clock';
 
 class Home extends React.Component {
   static propTypes = {
@@ -32,28 +32,12 @@ class Home extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      /*
-      this.setState({
-        time: moment(),
-      });
-      */
-    }, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-
   render() {
     const timezones = this.props.timezones.map((tz) => {
       const time = moment(this.state.time);
       time.utcOffset(tz.gmtOffset);
       return (
-        <div className={s.timezone}>
-          <AnalogClock width={200} gmtOffset={tz.gmtOffset} />
+        <div id={tz.id} className={s.timezone}>
           <Card>
             <CardBlock>
               <div className={s.cardTopRow}>
@@ -67,7 +51,7 @@ class Home extends React.Component {
               </div>
               <CardSubtitle>City: {tz.city}</CardSubtitle>
               <CardText>GMT Offset: {tz.gmtOffset} hours</CardText>
-              <CardText>Current Time: {time.format('HH:mm:ss')}</CardText>
+              Current Time: <Clock gmtOffset={tz.gmtOffset} />
               <LoadingButton
                 dirty
                 text="Delete"
@@ -86,16 +70,18 @@ class Home extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <div className={s.topRow}>
-            Timezones
-            <div>
-              Filter: <input type="text" onChange={(e) => this.props.filterByName(e.target.value)} />
+          <div>
+            <h3>Timezones</h3>
+            <div className={s.topRow}>
+              <div>
+                Search By Name: <input type="text" onChange={(e) => this.props.filterByName(e.target.value)} />
+              </div>
+              <this.timezoneModal
+                onSubmit={this.props.createTimezone}
+                buttonText="New Timezone"
+                title="Create Timezone"
+              />
             </div>
-            <this.timezoneModal
-              onSubmit={this.props.createTimezone}
-              buttonText="New Timezone"
-              title="Create Timezone"
-            />
           </div>
           {timezones}
 

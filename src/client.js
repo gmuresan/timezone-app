@@ -119,6 +119,9 @@ async function onLocationChange(location, action) {
       ...context,
       path: location.pathname,
       query: queryString.parse(location.search),
+      redirect(to) {
+        history.push(to);
+      },
     });
 
     // Prevent multiple page renders during the routing process

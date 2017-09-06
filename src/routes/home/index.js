@@ -7,7 +7,7 @@ import Layout from '../../components/Layout';
 import { get, post, put, dlte } from '../../helpers/request';
 
 async function route(context, params) {
-  const currentUserId = typeof (localStorage) !== 'undefined' ? JSON.parse(localStorage.currentUser).id : null;
+  const currentUserId = typeof (localStorage) !== 'undefined' && localStorage.currentUser ? JSON.parse(localStorage.currentUser).id : null;
   const userId = params.userId ? params.userId : currentUserId;
   const tzData = await get(`/api/users/${userId}/timezones`);
   const reducer = (timezones, action) => {

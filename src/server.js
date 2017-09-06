@@ -16,7 +16,6 @@ import models, { User } from './data/models';
 // import schema from './data/schema';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
-import { setRuntimeVariable } from './actions/runtime';
 import config from './config';
 import apiRoutes from './api';
 
@@ -100,13 +99,6 @@ app.get('*', async (req, res, next) => {
       // I should not use `history` on server.. but how I do redirection? follow universal-router
     });
 
-    store.dispatch(
-      setRuntimeVariable({
-        name: 'initialNow',
-        value: Date.now(),
-      }),
-    );
-
     // Global (context) variables that can be easily accessed from any React component
     // https://facebook.github.io/react/docs/context.html
     const context = {
@@ -125,6 +117,13 @@ app.get('*', async (req, res, next) => {
       ...context,
       path: req.path,
       query: req.query,
+      redirect(to) {
+        console.log(to);
+        const err = new Error('Redirecting');
+        err.status = 301;
+        err.path = to;
+        throw err;
+      },
     });
 
     if (route.redirect) {
@@ -153,6 +152,11 @@ app.get('*', async (req, res, next) => {
     res.status(route.status || 200);
     res.send(`<!doctype html>${html}`);
   } catch (err) {
+    if (err.status === 301) {
+      console.log(err);
+      res.redirect(err.path || '/login');
+      return;
+    }
     console.log(err);
     next(err);
   }

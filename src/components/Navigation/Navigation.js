@@ -12,30 +12,32 @@ import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
+import history from '../../history';
 
 class Navigation extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      token: typeof (localStorage) !== 'undefined' ? localStorage.token : null,
-    };
-  }
-
   logout = () => {
-    localStorage.token = null;
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    history.push('/login');
   }
 
   render() {
+    const token = typeof (localStorage) !== 'undefined' ? localStorage.token : null;
+    const user = (typeof (localStorage) !== 'undefined' && localStorage.currentUser ? JSON.parse(localStorage.currentUser) : null);
+
+    let usersLink = null;
+    if (user && user.userType === 'admin') {
+      usersLink = (<Link className={cx(s.link, s.highlight)} to="/users">
+        Users
+      </Link>);
+    }
     const loggedIn = (
       <div>
-        <Link className={cx(s.link, s.highlight)} to="/users">
-        Users
-      </Link>
-        <Link className={cx(s.link, s.highlight)} onClick={this.logout}>
-        Log Out
-      </Link>
+        {usersLink}
+        <Link className={cx(s.link, s.highlight)} to="#" onClick={this.logout}>
+          Log Out
+        </Link>
       </div>
     );
 
@@ -52,7 +54,7 @@ class Navigation extends React.Component {
     );
 
     let nav = loggedOut;
-    if (this.state.token) {
+    if (token) {
       nav = loggedIn;
     }
 

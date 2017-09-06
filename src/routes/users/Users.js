@@ -27,7 +27,7 @@ class Users extends React.Component {
   constructor(props) {
     super(props);
 
-    this.currentUser = typeof (localStorage) === 'undefined' ? {} : JSON.parse(localStorage.currentUser);
+    this.currentUser = typeof (localStorage) === 'undefined' && localStorage.currentUser ? {} : JSON.parse(localStorage.currentUser);
     this.editUserModal = ModalForm(buildForm(false, this.currentUser.userType === 'admin'));
     this.newUserModal = ModalForm(buildForm(true, this.currentUser.userType === 'admin'));
 
@@ -120,15 +120,17 @@ class Users extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          Users
-          <div>
-            Filter: <input type="text" onChange={(e) => this.props.filterByName(e.target.value)} />
+          <h3>Users</h3>
+          <div className={s.topRow}>
+            <div>
+              Search By Name: <input type="text" onChange={(e) => this.props.filterByName(e.target.value)} />
+            </div>
+            <this.newUserModal
+              onSubmit={this.props.createUser}
+              buttonText="New User"
+              title="Create User"
+            />
           </div>
-          <this.newUserModal
-            onSubmit={this.props.createUser}
-            buttonText="New User"
-            title="Create User"
-          />
 
           <div style={{ height: 400 }}>
             <Table

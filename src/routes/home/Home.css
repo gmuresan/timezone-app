@@ -26,5 +26,12 @@
 
 .topRow {
   display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topRow > div:first-child {
+  margin-right: 20px;
 }
 
