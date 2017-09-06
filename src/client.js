@@ -15,7 +15,6 @@ import queryString from 'query-string';
 import { createPath } from 'history/PathUtils';
 import App from './components/App';
 import createFetch from './createFetch';
-import configureStore from './store/configureStore';
 import history from './history';
 import { updateMeta } from './DOMUtils';
 import router from './router';
@@ -38,9 +37,6 @@ const context = {
   fetch: createFetch(self.fetch, {
     baseUrl: window.App.apiUrl,
   }),
-  // Initialize a new Redux store
-  // http://redux.js.org/docs/basics/UsageWithReact.html
-  store: configureStore(window.App.state, { history }),
   storeSubscription: null,
 };
 
@@ -145,8 +141,6 @@ async function onLocationChange(location, action) {
     if (__DEV__) {
       throw error;
     }
-
-    console.error(error);
 
     // Do a full page reload if error occurs during client-side navigation
     if (action && currentLocation.key === location.key) {
