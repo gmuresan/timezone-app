@@ -33,6 +33,7 @@ class Home extends React.Component {
   }
 
   render() {
+    const TzModal = this.timezoneModal;
     const timezones = this.props.timezones.map((tz) => {
       const time = moment(this.state.time);
       time.utcOffset(tz.gmtOffset);
@@ -42,7 +43,7 @@ class Home extends React.Component {
             <CardBlock>
               <div className={s.cardTopRow}>
                 <CardTitle>{tz.name}</CardTitle>
-                <this.timezoneModal
+                <TzModal
                   onSubmit={(values) => this.props.updateTimezone(values, tz)}
                   buttonText="Edit"
                   title={`Edit ${tz.name}`}
