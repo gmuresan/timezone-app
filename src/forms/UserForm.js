@@ -9,6 +9,9 @@ const User = t.struct({
 
 const defaultOptions = {
   fields: {
+    password: {
+      type: 'password',
+    },
   },
 };
 

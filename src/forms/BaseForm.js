@@ -85,7 +85,9 @@ export default function baseForm({
       const result = this.form.validate();
       if (result.isValid()) {
         const formData = Object.assign({}, this.form.getValue());
+
         const promise = this.props.onSubmit(formData);
+
         if (promise) {
           return promise.then(success => {
             if (onValidSubmit) {
@@ -97,6 +99,7 @@ export default function baseForm({
 
             // this.setState({ dirty: false });
           }).catch((err) => {
+            this.setState({ error: err.message });
             if (onValidSubmit) {
               onValidSubmit(this);
             }
@@ -144,12 +147,14 @@ export default function baseForm({
       }
 
       let submitButton = null;
+      const successText = this.state.error ? 'Error' : 'Success';
       if (!this.props.disabled) {
         submitButton = (
           <LoadingButton
             onClick={e => this.onSubmit(e)}
             dirty={this.state.dirty}
             text={submitText}
+            successText={successText}
             loadingText={loadingText}
           />
         );
@@ -181,6 +186,9 @@ export default function baseForm({
             onChange={values => this.onFormChange(values)}
           />
           {this.props.children}
+          <div className={s.error}>
+            {this.state.error}
+          </div>
           <div className={s.buttons}>
             {submitButton}
             {deleteButton}

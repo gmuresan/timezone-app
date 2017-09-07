@@ -29,7 +29,7 @@ class Login extends React.Component {
             {this.props.title}
           </h1>
           <p className={s.lead}>
-            Log in with your username or company email address.
+            Log in with your email address
           </p>
           <LoginForm
             dirty

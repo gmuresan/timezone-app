@@ -44,8 +44,7 @@ export default class Request {
   request(url, options) {
     return this.fetch(`${url}`, options)
     .then(this.checkStatus)
-    .then(this.parseJSON)
-    .catch((err) => ([]));
+    .then(this.parseJSON);
   }
 
   get(url, options) {

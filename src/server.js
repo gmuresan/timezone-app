@@ -55,6 +55,9 @@ app.post('/session', (req, res) => {
       const token = jwt.sign(userData, config.auth.jwt.secret, { expiresIn });
       userData.token = token;
       res.json(userData);
+    } else {
+      res.status(401);
+      res.json({ error: 'Invalid Password' });
     }
   });
 });
