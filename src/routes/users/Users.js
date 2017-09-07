@@ -27,7 +27,7 @@ class Users extends React.Component {
   constructor(props) {
     super(props);
 
-    this.currentUser = typeof (localStorage) === 'undefined' && localStorage.currentUser ? {} : JSON.parse(localStorage.currentUser);
+    this.currentUser = typeof (localStorage) !== 'undefined' && localStorage.currentUser ? JSON.parse(localStorage.currentUser) : {};
     this.editUserModal = ModalForm(buildForm(false, this.currentUser.userType === 'admin'));
     this.newUserModal = ModalForm(buildForm(true, this.currentUser.userType === 'admin'));
 
