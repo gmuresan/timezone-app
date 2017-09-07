@@ -101,7 +101,6 @@ app.get('*', async (req, res, next) => {
         styles.forEach(style => css.add(style._getCss()));
       },
       // You can access redux through react-redux connect
-      storeSubscription: null,
       fetch: createFetch(fetch, {
         baseUrl: config.api.serverUrl,
         cookie: req.headers.cookie,

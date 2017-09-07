@@ -4,16 +4,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import App from '../App';
-import Layout from './Layout';
+import Clock from './';
 
-describe('Layout', () => {
-  test('renders children correctly', () => {
+describe('Clock', () => {
+  test('renders clock correctly', () => {
+    Date.now = jest.fn(() => 1487076708000);
     const wrapper = renderer
       .create(
         <App context={{ insertCss: () => {} }}>
-          <Layout>
-            <div className="child" />
-          </Layout>
+          <Clock gmtOffset={1} />
         </App>,
       )
       .toJSON();
@@ -21,3 +20,4 @@ describe('Layout', () => {
     expect(wrapper).toMatchSnapshot();
   });
 });
+

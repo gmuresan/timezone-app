@@ -38,7 +38,6 @@ const context = {
   fetch: createFetch(self.fetch, {
     baseUrl: window.App.apiUrl,
   }),
-  storeSubscription: null,
 };
 
 // Switch off the native scroll restoration behavior and handle it manually

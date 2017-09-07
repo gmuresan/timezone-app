@@ -36,13 +36,11 @@ class TableComp extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // if (newProps.items.length !== this.state.items.length) {
     this.setState({ items: newProps.items }, () => {
       const sortBy = this.state.sortBy;
       const sortDirection = this.state.sortDirection;
       this.sort({ sortBy, sortDirection });
     });
-    // }
   }
 
   getItem(index) {

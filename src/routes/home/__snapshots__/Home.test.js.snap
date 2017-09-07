@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home renders timezone list 1`] = `
+<div
+  className="root"
+>
+  <div
+    className="container"
+  >
+    <div>
+      <h3>
+        Timezones
+      </h3>
+      <div
+        className="topRow"
+      >
+        <div>
+          Search By Name: 
+          <input
+            onChange={[Function]}
+            type="text"
+          />
+        </div>
+        <div>
+          <div
+            className="loadingButton"
+            id="loading-button-wrapper-Save"
+          >
+            <button
+              className="button    btn btn-warning"
+              data-permission="admin"
+              disabled={false}
+              id="loading-button-Save"
+              onClick={[Function]}
+              type="button"
+            >
+              <div
+                className="children"
+              >
+                New Timezone
+              </div>
+               
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="timezone"
+      >
+        <div
+          className="card"
+        >
+          <div
+            className="card-block"
+          >
+            <div
+              className="cardTopRow"
+            >
+              <h4
+                className="card-title"
+              >
+                n1
+              </h4>
+              <div>
+                <div
+                  className="loadingButton"
+                  id="loading-button-wrapper-Save"
+                >
+                  <button
+                    className="button    btn btn-warning"
+                    data-permission="admin"
+                    disabled={false}
+                    id="loading-button-Save"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <div
+                      className="children"
+                    >
+                      Edit
+                    </div>
+                     
+                  </button>
+                </div>
+              </div>
+            </div>
+            <h6
+              className="card-subtitle"
+            >
+              City: 
+              c1
+            </h6>
+            <p
+              className="card-text"
+            >
+              GMT Offset: 
+              1
+               hours
+            </p>
+            Current Time: 
+            <div>
+              01:51:48 PM
+               GMT
+            </div>
+            <div
+              className="loadingButton"
+              id="loading-button-wrapper-Delete"
+            >
+              <button
+                className="button red   btn btn-warning"
+                data-permission="admin"
+                disabled={false}
+                id="loading-button-Delete"
+                onClick={[Function]}
+                type="button"
+              >
+                Delete
+                 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="timezone"
+      >
+        <div
+          className="card"
+        >
+          <div
+            className="card-block"
+          >
+            <div
+              className="cardTopRow"
+            >
+              <h4
+                className="card-title"
+              >
+                n2
+              </h4>
+              <div>
+                <div
+                  className="loadingButton"
+                  id="loading-button-wrapper-Save"
+                >
+                  <button
+                    className="button    btn btn-warning"
+                    data-permission="admin"
+                    disabled={false}
+                    id="loading-button-Save"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <div
+                      className="children"
+                    >
+                      Edit
+                    </div>
+                     
+                  </button>
+                </div>
+              </div>
+            </div>
+            <h6
+              className="card-subtitle"
+            >
+              City: 
+              c2
+            </h6>
+            <p
+              className="card-text"
+            >
+              GMT Offset: 
+              2
+               hours
+            </p>
+            Current Time: 
+            <div>
+              02:51:48 PM
+               GMT
+            </div>
+            <div
+              className="loadingButton"
+              id="loading-button-wrapper-Delete"
+            >
+              <button
+                className="button red   btn btn-warning"
+                data-permission="admin"
+                disabled={false}
+                id="loading-button-Delete"
+                onClick={[Function]}
+                type="button"
+              >
+                Delete
+                 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="timezone"
+      >
+        <div
+          className="card"
+        >
+          <div
+            className="card-block"
+          >
+            <div
+              className="cardTopRow"
+            >
+              <h4
+                className="card-title"
+              >
+                n3
+              </h4>
+              <div>
+                <div
+                  className="loadingButton"
+                  id="loading-button-wrapper-Save"
+                >
+                  <button
+                    className="button    btn btn-warning"
+                    data-permission="admin"
+                    disabled={false}
+                    id="loading-button-Save"
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <div
+                      className="children"
+                    >
+                      Edit
+                    </div>
+                     
+                  </button>
+                </div>
+              </div>
+            </div>
+            <h6
+              className="card-subtitle"
+            >
+              City: 
+              c3
+            </h6>
+            <p
+              className="card-text"
+            >
+              GMT Offset: 
+              3
+               hours
+            </p>
+            Current Time: 
+            <div>
+              03:51:48 PM
+               GMT
+            </div>
+            <div
+              className="loadingButton"
+              id="loading-button-wrapper-Delete"
+            >
+              <button
+                className="button red   btn btn-warning"
+                data-permission="admin"
+                disabled={false}
+                id="loading-button-Delete"
+                onClick={[Function]}
+                type="button"
+              >
+                Delete
+                 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

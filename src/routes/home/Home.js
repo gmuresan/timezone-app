@@ -38,7 +38,7 @@ class Home extends React.Component {
       const time = moment(this.state.time);
       time.utcOffset(tz.gmtOffset);
       return (
-        <div id={tz.id} className={s.timezone}>
+        <div key={tz.id} className={s.timezone}>
           <Card>
             <CardBlock>
               <div className={s.cardTopRow}>
