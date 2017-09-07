@@ -84,7 +84,9 @@ class Home extends React.Component {
               />
             </div>
           </div>
-          {timezones}
+          <div>
+            {timezones}
+          </div>
 
         </div>
       </div>

@@ -114,7 +114,6 @@ app.get('*', async (req, res, next) => {
       query: req.query,
       cookies: req.cookies,
       redirect(to) {
-        console.log(to);
         const err = new Error('Redirecting');
         err.status = 301;
         err.path = to;

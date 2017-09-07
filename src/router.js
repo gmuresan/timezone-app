@@ -1,12 +1,10 @@
-
 import Router from 'universal-router';
-import Cookies from 'js-cookie';
 import routes from './routes';
 
 export default new Router(routes, {
   resolveRoute(context, params, request) {
     if (context.route.auth === true) {
-      const token = Cookies.get('token') ? Cookies.get('token') : context.cookies.token;
+      const token = context.cookies.token;
       if (!token) return context.redirect('/login');
     }
 

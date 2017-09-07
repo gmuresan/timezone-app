@@ -30,7 +30,7 @@ class Users extends React.Component {
 
     this.currentUser = getCurrentUser();
     this.editUserModal = ModalForm(buildForm(false, this.currentUser.userType === 'admin'));
-    this.newUserModal = ModalForm(buildForm(true, this.currentUser.userType === 'admin'));
+    this.newUserModal = ModalForm(buildForm(true, false));
 
     this.state = {
       time: moment(),

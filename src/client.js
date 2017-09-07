@@ -10,6 +10,7 @@
 import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Cookies from 'js-cookie';
 import deepForceUpdate from 'react-deep-force-update';
 import queryString from 'query-string';
 import { createPath } from 'history/PathUtils';
@@ -115,6 +116,7 @@ async function onLocationChange(location, action) {
       ...context,
       path: location.pathname,
       query: queryString.parse(location.search),
+      cookies: Cookies.get(),
       redirect(to) {
         history.push(to);
       },

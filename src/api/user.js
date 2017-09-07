@@ -6,7 +6,6 @@ import tzRouter from './timezone';
 const userRouter = app.Router();
 
 userRouter.param('userId', (req, res, next, userId) => {
-  console.log(req.user);
   if (userId !== req.user.id &&
     (req.user.userType !== 'admin' && req.user.userType !== 'manager')) {
     res.status(403);
@@ -46,7 +45,19 @@ userRouter.get('/', (req, res) => {
 });
 
 userRouter.put('/:userId', (req, res) => {
-  req.requestedUser.update(req.body, { fields: ['name', 'email', 'userType'] }).then((user) => {
+  const fields = ['name', 'email'];
+  const body = req.body;
+  if (req.user.userType === 'admin') {
+    fields.push('userType');
+    if (body.password) {
+      fields.push('password');
+      body.password = User.generateHash(body.password);
+    }
+  }
+
+  console.log(fields);
+  console.log(body);
+  req.requestedUser.update(req.body, { fields }).then((user) => {
     res.status(200);
     res.json(_.pick(user, ['name', 'email', 'id', 'userType']));
   });
