@@ -4,10 +4,11 @@ import _ from 'lodash';
 
 import Users from './Users';
 import Layout from '../../components/Layout';
-import { get, post, put, dlte } from '../../helpers/request';
+import Request from '../../helpers/request';
 
 async function route({ fetch }) {
-  const userData = await get('/api/users');
+  const request = new Request(fetch);
+  const userData = await request.get('/api/users');
 
   const reducer = (users, action) => {
     switch (action.type) {
@@ -31,15 +32,15 @@ async function route({ fetch }) {
     }
   };
 
-  const createUser = (values, dispatch) => post('/user', values).then((user) => {
+  const createUser = (values, dispatch) => request.post('/user', values).then((user) => {
     dispatch({ type: 'created', user });
   });
 
-  const updateUser = (values, user, dispatch) => put(`/api/users/${user.id}`, values).then((updated) => {
+  const updateUser = (values, user, dispatch) => request.put(`/api/users/${user.id}`, values).then((updated) => {
     dispatch({ type: 'updated', user: updated });
   });
 
-  const deleteUser = (user, dispatch) => dlte(`/api/users/${user.id}`).then(() => {
+  const deleteUser = (user, dispatch) => request.dlte(`/api/users/${user.id}`).then(() => {
     dispatch({ type: 'deleted', user });
   });
 

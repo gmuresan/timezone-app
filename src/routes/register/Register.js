@@ -11,22 +11,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import { post } from '../../helpers/request';
 import RegisterForm from '../../forms/RegisterForm';
-import history from '../../history';
 import s from './Register.css';
 
 class Register extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    onRegister: PropTypes.func.isRequired,
   };
-
-  register = (values) => post('/user', values).then((resp) => {
-    localStorage.token = resp.token;
-    localStorage.currentUser = JSON.stringify(resp);
-    history.push('/timezones');
-    return resp;
-  });
 
   render() {
     return (
@@ -36,7 +28,7 @@ class Register extends React.Component {
             {this.props.title}
           </h1>
           <RegisterForm
-            onSubmit={this.register}
+            onSubmit={this.props.onRegister}
             dirty
           />
         </div>

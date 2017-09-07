@@ -10,6 +10,7 @@ import { buildForm } from '../../forms/UserForm';
 import LoadingButton from '../../components/LoadingButton';
 import Table from '../../components/Table';
 import Link from '../../components/Link';
+import getCurrentUser from '../../helpers/user';
 
 class Users extends React.Component {
   static propTypes = {
@@ -27,7 +28,7 @@ class Users extends React.Component {
   constructor(props) {
     super(props);
 
-    this.currentUser = typeof (localStorage) !== 'undefined' && localStorage.currentUser ? JSON.parse(localStorage.currentUser) : {};
+    this.currentUser = getCurrentUser();
     this.editUserModal = ModalForm(buildForm(false, this.currentUser.userType === 'admin'));
     this.newUserModal = ModalForm(buildForm(true, this.currentUser.userType === 'admin'));
 

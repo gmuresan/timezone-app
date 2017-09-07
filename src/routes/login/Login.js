@@ -12,21 +12,14 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import LoginForm from '../../forms/LoginForm';
-import { post } from '../../helpers/request';
-import history from '../../history';
 
 import s from './Login.css';
 
 class Login extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    onLogin: PropTypes.func.isRequired,
   };
-
-  onSubmit = (values) => post('/session', values).then((res) => {
-    localStorage.token = res.token;
-    localStorage.currentUser = JSON.stringify(res);
-    history.push('/timezones');
-  });
 
   render() {
     return (
@@ -40,7 +33,7 @@ class Login extends React.Component {
           </p>
           <LoginForm
             dirty
-            onSubmit={this.onSubmit}
+            onSubmit={this.props.onLogin}
           />
         </div>
       </div>

@@ -1,21 +1,9 @@
-require('fetch-everywhere');
 
-function getBaseUrl() {
-  if (process.env.BROWSER) {
-    return window.App.apiUrl;
+export default class Request {
+
+  constructor(fetchInstance) {
+    this.fetch = fetchInstance;
   }
-
-  // eslint-disable-next-line global-require
-  return require('../config').api.serverUrl;
-}
-
-function getTokenAuth() {
-  if (typeof (localStorage) === 'undefined' || localStorage === null) {
-    return '';
-  }
-
-  return `Bearer ${localStorage.token}`;
-}
 
 /**
  * Parses the JSON returned by a network request
@@ -24,9 +12,9 @@ function getTokenAuth() {
  *
  * @return {object}          The parsed JSON from the request
  */
-function parseJSON(response) {
-  return response.json();
-}
+  parseJSON(response) {
+    return response.json();
+  }
 
 /**
  * Checks if a network request came back fine, and throws an error if not
@@ -35,15 +23,15 @@ function parseJSON(response) {
  *
  * @return {object|undefined} Returns either the response, or throws an error
  */
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
+  checkStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    }
 
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
-}
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
 
 /**
  * Requests a URL, returning a promise
@@ -53,62 +41,57 @@ function checkStatus(response) {
  *
  * @return {object}           The response data
  */
-export default function request(url, options) {
-  console.log(url);
-  return fetch(`${getBaseUrl()}${url}`, options)
-    .then(checkStatus)
-    .then(parseJSON)
+  request(url, options) {
+    return this.fetch(`${url}`, options)
+    .then(this.checkStatus)
+    .then(this.parseJSON)
     .catch((err) => ([]));
-}
+  }
 
-export function get(url, options) {
-  const newOptions = Object.assign({}, options, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: getTokenAuth(),
-    },
-  });
-  return request(url, newOptions);
-}
+  get(url, options) {
+    const newOptions = Object.assign({}, options, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    return this.request(url, newOptions);
+  }
 
-export function post(url, data, options) {
-  const newOptions = Object.assign({}, options, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: getTokenAuth(),
-    },
-  });
-  return request(url, newOptions);
-}
+  post(url, data, options) {
+    const newOptions = Object.assign({}, options, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    return this.request(url, newOptions);
+  }
 
-export function put(url, data, options) {
-  const newOptions = Object.assign({}, options, {
-    method: 'PUT',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: getTokenAuth(),
-    },
-  });
-  return request(url, newOptions);
-}
+  put(url, data, options) {
+    const newOptions = Object.assign({}, options, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    return this.request(url, newOptions);
+  }
 
-export function dlte(url, data, options) {
-  const newOptions = Object.assign({}, options, {
-    method: 'DELETE',
-    // body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: getTokenAuth(),
-    },
-  });
-  return request(url, newOptions);
-}
+  dlte(url, data, options) {
+    const newOptions = Object.assign({}, options, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    return this.request(url, newOptions);
+  }
 
+}

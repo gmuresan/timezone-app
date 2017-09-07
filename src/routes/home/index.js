@@ -4,12 +4,14 @@ import _ from 'lodash';
 
 import Home from './Home';
 import Layout from '../../components/Layout';
-import { get, post, put, dlte } from '../../helpers/request';
+import Request from '../../helpers/request';
+import getCurrentUser from '../../helpers/user';
 
 async function route(context, params) {
-  const currentUserId = typeof (localStorage) !== 'undefined' && localStorage.currentUser ? JSON.parse(localStorage.currentUser).id : null;
+  const request = new Request(context.fetch);
+  const currentUserId = getCurrentUser().id;
   const userId = params.userId ? params.userId : currentUserId;
-  const tzData = await get(`/api/users/${userId}/timezones`);
+  const tzData = await request.get(`/api/users/${userId}/timezones`);
   const reducer = (timezones, action) => {
     switch (action.type) {
       case 'created':
@@ -32,15 +34,15 @@ async function route(context, params) {
     }
   };
 
-  const createTimezone = (values, dispatch) => post(`/api/users/${userId}/timezones`, values).then((timezone) => {
+  const createTimezone = (values, dispatch) => request.post(`/api/users/${userId}/timezones`, values).then((timezone) => {
     dispatch({ type: 'created', timezone });
   });
 
-  const updateTimezone = (values, timezone, dispatch) => put(`/api/users/${userId}/timezones/${timezone.id}`, values).then((updated) => {
+  const updateTimezone = (values, timezone, dispatch) => request.put(`/api/users/${userId}/timezones/${timezone.id}`, values).then((updated) => {
     dispatch({ type: 'updated', timezone: updated });
   });
 
-  const deleteTimezone = (timezone, dispatch) => dlte(`/api/users/${userId}/timezones/${timezone.id}`).then(() => {
+  const deleteTimezone = (timezone, dispatch) => request.dlte(`/api/users/${userId}/timezones/${timezone.id}`).then(() => {
     dispatch({ type: 'deleted', timezone });
   });
 

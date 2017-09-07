@@ -8,18 +8,27 @@
  */
 
 import React from 'react';
+import Cookies from 'js-cookie';
 import Layout from '../../components/Layout';
 import Register from './Register';
 
 const title = 'New User Registration';
 
-function action() {
+async function action({ fetch }) {
+  const request = new Request(fetch);
+
+  const onRegister = (values) => request.post('/user', values).then((res) => {
+    Cookies.set('token', res.token);
+    Cookies.set('currentUser', JSON.stringify(res));
+    history.push('/timezones');
+  });
+
   return {
     chunks: ['register'],
     title,
     component: (
       <Layout>
-        <Register title={title} />
+        <Register onRegister={onRegister} title={title} />
       </Layout>
     ),
   };

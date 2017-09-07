@@ -1,17 +1,15 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
 
 import Router from 'universal-router';
+import Cookies from 'js-cookie';
 import routes from './routes';
 
 export default new Router(routes, {
-  resolveRoute(context, params) {
+  resolveRoute(context, params, request) {
+    if (context.route.auth === true) {
+      const token = Cookies.get('token') ? Cookies.get('token') : context.cookies.token;
+      if (!token) return context.redirect('/login');
+    }
+
     if (typeof context.route.load === 'function') {
       return context.route
         .load()

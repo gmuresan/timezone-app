@@ -8,14 +8,17 @@ const routes = {
   children: [
     {
       path: '/',
+      auth: true,
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
       path: '/timezones/:userId?',
+      auth: true,
       load: () => import(/* webpackChunkName: 'home' */ './home'),
     },
     {
       path: '/users',
+      auth: true,
       load: () => import(/* webpackChunkName: 'users' */ './users'),
     },
     {

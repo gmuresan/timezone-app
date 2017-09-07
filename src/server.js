@@ -3,6 +3,7 @@ import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -11,6 +12,7 @@ import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
+import createFetch from './createFetch';
 import router from './router';
 import models, { User } from './data/models';
 // import schema from './data/schema';
@@ -100,12 +102,17 @@ app.get('*', async (req, res, next) => {
       },
       // You can access redux through react-redux connect
       storeSubscription: null,
+      fetch: createFetch(fetch, {
+        baseUrl: config.api.serverUrl,
+        cookie: req.headers.cookie,
+      }),
     };
 
     const route = await router.resolve({
       ...context,
       path: req.path,
       query: req.query,
+      cookies: req.cookies,
       redirect(to) {
         console.log(to);
         const err = new Error('Redirecting');
@@ -113,7 +120,7 @@ app.get('*', async (req, res, next) => {
         err.path = to;
         throw err;
       },
-    });
+    }, {});
 
     if (route.redirect) {
       res.redirect(route.status || 302, route.redirect);
@@ -145,7 +152,6 @@ app.get('*', async (req, res, next) => {
       res.redirect(err.path || '/login');
       return;
     }
-    console.log(err);
     next(err);
   }
 });
