@@ -9,9 +9,11 @@ import getCurrentUser from '../../helpers/user';
 
 async function route(context, params) {
   const request = new Request(context.fetch);
-  const currentUserId = getCurrentUser().id;
+  const currentUser = getCurrentUser(context.cookies);
+  const currentUserId = currentUser.id;
   const userId = params.userId ? params.userId : currentUserId;
   const tzData = await request.get(`/api/users/${userId}/timezones`);
+
   const reducer = (timezones, action) => {
     switch (action.type) {
       case 'created':
@@ -65,7 +67,7 @@ async function route(context, params) {
     chunks: ['home'],
     title: 'Timezones',
     component: (
-      <Layout>
+      <Layout currentUser={currentUser}>
         <WithTimezones />
       </Layout>
     ),

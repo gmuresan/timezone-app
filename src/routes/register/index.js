@@ -19,7 +19,7 @@ const title = 'New User Registration';
 async function action({ fetch }) {
   const request = new Request(fetch);
 
-  const onRegister = (values) => request.post('/user', values).then((res) => {
+  const onRegister = (values) => request.post('/users', values).then((res) => {
     Cookies.set('token', res.token);
     Cookies.set('currentUser', JSON.stringify(res));
     history.push('/timezones');

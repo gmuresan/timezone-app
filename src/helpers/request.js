@@ -13,6 +13,9 @@ export default class Request {
  * @return {object}          The parsed JSON from the request
  */
   parseJSON(response) {
+    if (response.status === 204) {
+      return {};
+    }
     return response.json();
   }
 

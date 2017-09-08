@@ -55,8 +55,6 @@ userRouter.put('/:userId', (req, res) => {
     }
   }
 
-  console.log(fields);
-  console.log(body);
   req.requestedUser.update(req.body, { fields }).then((user) => {
     res.status(200);
     res.json(_.pick(user, ['name', 'email', 'id', 'userType']));

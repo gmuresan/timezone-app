@@ -99,6 +99,7 @@ class LoadingButton extends React.Component {
         onClick={(e) => this.onSubmit(e)}
         color="warning"
         disabled={this.state.saveState === 'clean' || this.state.saveState === 'saved' || this.saveState === 'saving'}
+        type="submit"
       >{submitButtonText} {loading}</Button>
     );
 

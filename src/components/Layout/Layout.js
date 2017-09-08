@@ -20,13 +20,18 @@ import Header from '../Header';
 class Layout extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    currentUser: PropTypes.object,
   };
 
   render() {
+    const children = React.cloneElement(this.props.children, {
+      currentUser: this.props.currentUser,
+    });
+
     return (
       <div>
-        <Header />
-        {this.props.children}
+        <Header currentUser={this.props.currentUser} />
+        {children}
       </div>
     );
   }

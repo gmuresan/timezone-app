@@ -29,6 +29,7 @@ app.post('/session', (req, res) => {
   const { email, password } = req.body;
   User.findOne({ where: { email } }).then((user) => {
     if (!user) {
+      res.status(401);
       res.json({});
     } else if (User.validPassword(password, user.password)) {
       const expiresIn = 60 * 60 * 24 * 1; // 1 days
@@ -43,7 +44,7 @@ app.post('/session', (req, res) => {
   });
 });
 
-app.post('/user', (req, res) => {
+app.post('/users', (req, res) => {
   const { email, password, name } = req.body;
   User.findOne({ where: { email } }).then(user => {
     if (user) {

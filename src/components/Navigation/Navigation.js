@@ -1,13 +1,17 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
 import history from '../../history';
-import getCurrentUser from '../../helpers/user';
 
 class Navigation extends React.Component {
+
+  static propTypes = {
+    currentUser: PropTypes.object,
+  }
 
   logout = () => {
     Cookies.remove('token');
@@ -16,11 +20,10 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const user = getCurrentUser();
-    const token = user.token;
+    const token = this.props.currentUser ? this.props.currentUser.token : null;
 
     let usersLink = null;
-    if (user && user.userType === 'admin') {
+    if (this.props.currentUser && (this.props.currentUser.userType === 'admin' || this.props.currentUser.userType === 'manager')) {
       usersLink = (<Link className={cx(s.link, s.highlight)} to="/users">
         Users
       </Link>);

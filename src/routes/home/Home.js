@@ -43,25 +43,27 @@ class Home extends React.Component {
             <CardBlock>
               <div className={s.cardTopRow}>
                 <CardTitle>{tz.name}</CardTitle>
+              </div>
+              <CardSubtitle>City: {tz.city}</CardSubtitle>
+              <CardText>GMT Offset: {tz.gmtOffset} hours</CardText>
+              Current Time: <Clock gmtOffset={tz.gmtOffset} />
+              <div className={s.cardButtons}>
                 <TzModal
                   onSubmit={(values) => this.props.updateTimezone(values, tz)}
                   buttonText="Edit"
                   title={`Edit ${tz.name}`}
                   values={tz}
                 />
-              </div>
-              <CardSubtitle>City: {tz.city}</CardSubtitle>
-              <CardText>GMT Offset: {tz.gmtOffset} hours</CardText>
-              Current Time: <Clock gmtOffset={tz.gmtOffset} />
-              <LoadingButton
-                dirty
-                text="Delete"
-                loadingText="Deleting"
-                successText="Deleted"
-                onClick={() => this.props.deleteTimezone(tz)}
-                red
-              />
+                <LoadingButton
+                  dirty
+                  text="Delete"
+                  loadingText="Deleting"
+                  successText="Deleted"
+                  onClick={() => this.props.deleteTimezone(tz)}
+                  red
+                />
 
+              </div>
             </CardBlock>
           </Card>
         </div>

@@ -5,10 +5,12 @@ import _ from 'lodash';
 import Users from './Users';
 import Layout from '../../components/Layout';
 import Request from '../../helpers/request';
+import getCurrentUser from '../../helpers/user';
 
-async function route({ fetch }) {
-  const request = new Request(fetch);
+async function route(context, params) {
+  const request = new Request(context.fetch);
   const userData = await request.get('/api/users');
+  const currentUser = getCurrentUser(context.cookies);
 
   const reducer = (users, action) => {
     switch (action.type) {
@@ -32,7 +34,7 @@ async function route({ fetch }) {
     }
   };
 
-  const createUser = (values, dispatch) => request.post('/user', values).then((user) => {
+  const createUser = (values, dispatch) => request.post('/users', values).then((user) => {
     dispatch({ type: 'created', user });
   });
 
@@ -63,7 +65,7 @@ async function route({ fetch }) {
     chunks: ['users'],
     title: 'Users',
     component: (
-      <Layout>
+      <Layout currentUser={currentUser}>
         <WithUsers />
       </Layout>
     ),
