@@ -46,5 +46,9 @@ function sync(...args) {
   return sequelize.sync(...args);
 }
 
-export default { sync };
+function drop() {
+  return sequelize.drop();
+}
+
+export default { sync, drop };
 export { Timezone, User, UserLogin, UserClaim, UserProfile };

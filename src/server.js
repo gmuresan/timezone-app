@@ -1,12 +1,6 @@
-import _ from 'lodash';
-import path from 'path';
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import fetch from 'node-fetch';
-import jwt from 'jsonwebtoken';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import fetch from 'node-fetch';
 import PrettyError from 'pretty-error';
 import App from './components/App';
 import Html from './components/Html';
@@ -15,12 +9,10 @@ import errorPageStyle from './routes/error/ErrorPage.css';
 import createFetch from './createFetch';
 import router from './router';
 import models, { User } from './data/models';
-// import schema from './data/schema';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
-import config from './config';
-import apiRoutes from './api';
 
-const app = express();
+import config from './config';
+import app from './app';
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -28,64 +20,6 @@ const app = express();
 // -----------------------------------------------------------------------------
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
-
-//
-// Register Node.js middleware
-// -----------------------------------------------------------------------------
-app.use(express.static(path.resolve(__dirname, 'public')));
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-
-if (__DEV__) {
-  app.enable('trust proxy');
-}
-
-app.use('/api', apiRoutes);
-
-app.post('/session', (req, res) => {
-  const { email, password } = req.body;
-  User.findOne({ where: { email } }).then((user) => {
-    if (!user) {
-      res.json({});
-    } else if (User.validPassword(password, user.password)) {
-      const expiresIn = 60 * 60 * 24 * 1; // 1 days
-      const userData = _.pick(user, ['id', 'name', 'email', 'userType']);
-      const token = jwt.sign(userData, config.auth.jwt.secret, { expiresIn });
-      userData.token = token;
-      res.json(userData);
-    } else {
-      res.status(401);
-      res.json({ error: 'Invalid Password' });
-    }
-  });
-});
-
-app.post('/user', (req, res) => {
-  const { email, password, name } = req.body;
-  User.findOne({ where: { email } }).then(user => {
-    if (user) {
-      res.status(409);
-      res.json();
-    } else {
-      User.create({
-        email,
-        password: User.generateHash(password),
-        name,
-      }).then((createdUser) => {
-        if (createdUser) {
-          res.status(201);
-          const expiresIn = 60 * 60 * 24 * 1; // 1 days
-          const userData = _.pick(createdUser, ['id', 'name', 'email', 'userType']);
-          const token = jwt.sign(userData, config.auth.jwt.secret, { expiresIn });
-          userData.token = token;
-          res.json(userData);
-        }
-      });
-    }
-  });
-});
 
 //
 // Register server-side rendering middleware
@@ -180,6 +114,7 @@ app.use((err, req, res, next) => {
   res.send(`<!doctype html>${html}`);
 });
 
+
 //
 // Launch the server
 // -----------------------------------------------------------------------------
@@ -207,6 +142,7 @@ if (!module.hot) {
     });
   });
 }
+
 
 //
 // Hot Module Replacement

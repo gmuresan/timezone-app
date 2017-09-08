@@ -15,7 +15,7 @@ if (process.env.BROWSER) {
   );
 }
 
-module.exports = {
+const config = {
   // Node.js app
   port: process.env.PORT || 3000,
 
@@ -42,11 +42,11 @@ module.exports = {
   auth: {
     jwt: { secret: process.env.JWT_SECRET || 'React Starter Kit' },
 
-    // https://developers.facebook.com/
-    facebook: {
-      id: process.env.FACEBOOK_APP_ID || '116962052301426',
-      secret:
-        process.env.FACEBOOK_APP_SECRET || '0d06e0845e2ee4998d5d15605df4e2e1',
-    },
   },
 };
+
+if (process.env.NODE_ENV === 'test') {
+  config.databaseUrl = 'sqlite:test.sqlite';
+}
+
+module.exports = config;

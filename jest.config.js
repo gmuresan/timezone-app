@@ -68,7 +68,7 @@ module.exports = {
   // resolver: // [string]
   // rootDir: // [string]
   // roots: // [array<string>]
-  // setupFiles: // [array]
+  // setupFiles: ['./test/setup.js'],
   // setupTestFrameworkScriptFile: // [string]
   // snapshotSerializers: // [array<string>]
   // testEnvironment: // [string]
@@ -82,6 +82,7 @@ module.exports = {
 
   transform: {
     '\\.jsx?$': 'babel-jest',
+    '\\.js?$': 'babel-jest',
     '\\.(jpe?g|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/jest/fileTransformer.js',
   },
