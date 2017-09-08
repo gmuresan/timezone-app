@@ -44,7 +44,6 @@ app.get('*', async (req, res, next) => {
       }),
     };
 
-    console.log(req.cookies);
     const route = await router.resolve({
       ...context,
       path: req.path,
