@@ -11,6 +11,8 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import Layout from '../../components/Layout';
 import Register from './Register';
+import Request from '../../helpers/request';
+import history from '../../history';
 
 const title = 'New User Registration';
 
