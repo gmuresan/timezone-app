@@ -33,9 +33,9 @@ userRouter.use((err, req, res, next) => {
 });
 
 userRouter.get('/', (req, res) => {
-  const userTypes = ['user'];
+  const userTypes = ['user', 'manager'];
   if (req.user.userType === 'admin') {
-    userTypes.push('manager');
+    userTypes.push('admin');
   }
 
   User.findAll({ where: { userType: { $in: userTypes } } }).then((users) => {
